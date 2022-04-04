@@ -1,0 +1,12 @@
+FROM ubuntu:18.04
+RUN apt update && apt install default-jdk wget maven git -y
+RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+RUN cd boxfuse-sample-java-war-hello/ && mvn package
+
+RUN mkdir /usr/local/tomcat
+RUN wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.62/bin/apache-tomcat-9.0.62.tar.gz -O /tmp/t>RUN cd /tmp && tar xvfz tomcat.tar.gz
+RUN cp -Rv /tmp/apache-tomcat-9.0.62/* /usr/local/tomcat/
+EXPOSE 8080
+CMD /usr/local/tomcat/bin/catalina.sh run
+
+RUN cp boxfuse-sample-java-war-hello/target/hello-1.0.war /usr/local/tomcat/webapps
